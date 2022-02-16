@@ -1,4 +1,4 @@
 interface buttonProps {
-    onFilterTask: (filter:Filter) => void;
+    onFilterTask: (filter:Filters) => void;
     filter:string
 }
