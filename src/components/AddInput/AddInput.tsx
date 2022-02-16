@@ -6,9 +6,10 @@ import {
   Button
 } from "@chakra-ui/react"
 import './AddInput.scss';
+import {useI18NText} from '../../i18n/locales'
 
 const AddInput: React.FC<inputProps> = (props) => {
-  
+  const { getI18NText } = useI18NText({ prefix: 'component.' }) 
   const [taskName, setValue] = useState('')
   const handleChangeValue = (event:any) => setValue(event.target.value)
   const handleSubmitClick = ()=> {
@@ -22,12 +23,12 @@ const AddInput: React.FC<inputProps> = (props) => {
   return <Flex>
     <Input
       value={taskName}
-      placeholder='请输入任务~' 
+      placeholder={getI18NText("请输入任务~")}
       onChange={handleChangeValue} 
       autoComplete="off" mr="1" />
     <Spacer />
     <Button colorScheme='teal' size='md' onClick={handleSubmitClick}>
-      添加任务
+      {getI18NText("添加任务")}
     </Button>
   </Flex>;
 };

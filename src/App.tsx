@@ -9,6 +9,7 @@ import {v4 as uuidv4} from "uuid"
 import AddInput from './components/AddInput/AddInput'
 import FilterButons from './components/FilterButons/FilterButons'
 import Todo from './components/Todo/Todo'
+import {useI18NText} from './i18n/locales'
 
 const FILTER_MAP:Filters = {
   all: () => true,
@@ -19,7 +20,7 @@ const FILTER_MAP:Filters = {
 
 
 export const App = (props:TasksProps) => {
-
+  const { getI18NText } = useI18NText({ prefix: 'app.' })
   const [tasks, setTasks] = useState(props.tasks);
   const [filter, setFilter] = useState<Filter>('all');
 
@@ -48,7 +49,7 @@ export const App = (props:TasksProps) => {
 
   return <ChakraProvider theme={theme}>
     <Box boxShadow='dark-lg' w='60%' p={4} mx="auto" mt="30" >
-      <Heading as='h2' size='lg' mx="auto" my="30" w='30%'>今日待办事项</Heading>
+      <Heading as='h2' size='lg' mx="auto" my="30" w='30%'>{getI18NText("今日待办事项")}</Heading>
       <AddInput onAddTask={handleAddTask}/>
       <FilterButons onFilterTask={handleFilterTask} filter={filter}  />
       {handleFilterList()}
