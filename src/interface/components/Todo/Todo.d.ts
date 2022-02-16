@@ -1,6 +1,5 @@
 interface todoProps {
-    onChangeTaskStatus: (itemId:string,isCompleted:boolean) => void;
-    isCompleted:boolean;
-    itemId:string,
-    taskName:string
+  onChangeTaskStatus: (itemId: string, isCompleted: boolean) => void;
+  onDeleteTask: (itemId: string) => void;
+  item: Task;
 }

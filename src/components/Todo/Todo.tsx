@@ -1,20 +1,29 @@
-import React  from "react";
-import { Checkbox, Flex } from "@chakra-ui/react";
+import React from "react";
+import { Checkbox, Flex,Button,Spacer } from "@chakra-ui/react";
 
 import "./Todo.scss";
+import { useI18NText } from "../../i18n/locales";
 
 const Todo: React.FC<todoProps> = (props) => {
-  let { isCompleted, taskName, onChangeTaskStatus, itemId } = props;
-  const styleProps = { textDecoration: isCompleted ? "line-through" : "none" };
+  const { getI18NText } = useI18NText({ prefix: "component." });
+  let { onChangeTaskStatus,onDeleteTask, item } = props;
+  const styleProps = {
+    textDecoration: item.completed ? "line-through" : "none",
+  };
   const handleChangeStatus = (e: any) => {
-    onChangeTaskStatus(itemId, e.target.checked);
+    onChangeTaskStatus(item.id, e.target.checked);
+  };
+  const handleDeleteTask = (e: any) => {
+    onDeleteTask(item.id);
   };
   return (
     <>
-      <Flex ml={2}>
-        <Checkbox isChecked={isCompleted} onChange={handleChangeStatus}>
-          <p style={styleProps}>{taskName}</p>
+      <Flex m={3}>
+        <Checkbox  isChecked={item.completed} onChange={handleChangeStatus}>
+          <p style={styleProps}>{item.name}</p>
         </Checkbox>
+        <Spacer />
+        <Button size='xs' onClick={handleDeleteTask}>{getI18NText("删除")}</Button>
       </Flex>
     </>
   );

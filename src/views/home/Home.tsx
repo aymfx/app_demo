@@ -62,16 +62,18 @@ export const Home = () => {
     );
   };
 
+  const handleDeleteTask = (id: string) => {
+    setTasks(tasks.filter((item) => item.id !== id));
+  };
+
   const handleFilterList = () => {
     return tasks
       .filter(FILTER_MAP[filter])
       .map((item) => (
         <Todo
+          onDeleteTask={handleDeleteTask}
           onChangeTaskStatus={handleChangeTaskStatus}
-          isCompleted={item.completed}
-          key={item.id}
-          itemId={item.id}
-          taskName={item.name}
+          item={item}
         />
       ));
   };
