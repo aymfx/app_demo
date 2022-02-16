@@ -1,38 +1,57 @@
-import * as React from "react"
+import React, { useState, useRef, useEffect } from "react";
 import {
   ChakraProvider,
   Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
+  Heading,
   theme,
 } from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+import {v4 as uuidv4} from "uuid"
+import AddInput from './components/AddInput/AddInput'
+import FilterButons from './components/FilterButons/FilterButons'
+import Todo from './components/Todo/Todo'
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-          <Link
-            color="teal.500"
-            href="https://chakra-ui.com"
-            fontSize="2xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Chakra
-          </Link>
-        </VStack>
-      </Grid>
+const FILTER_MAP:Filters = {
+  all: () => true,
+  active: task => !task.completed,
+  completed: task => task.completed
+};
+
+
+
+export const App = (props:TasksProps) => {
+
+  const [tasks, setTasks] = useState(props.tasks);
+  const [filter, setFilter] = useState<Filter>('all');
+
+  const handleAddTask = (taskName:string) =>{
+    const newTask = { id: "todo-" + uuidv4(), name: taskName, completed: false };
+    setTasks([...tasks, newTask]);
+    console.log(tasks,newTask)
+  }
+
+  const handleFilterTask = (filter:Filter) =>{
+    setFilter(filter)
+  }
+
+  const handleChangeTaskStatus = (id:string,isCompleted:boolean)=>{
+    setTasks(tasks.map(item => {
+      if(item.id ===id){
+        item.completed = isCompleted
+      }
+      return item;
+    })) 
+  } 
+
+  const handleFilterList = ()=>{
+    return tasks.filter(FILTER_MAP[filter]).map(item=> <Todo onChangeTaskStatus={handleChangeTaskStatus} isCompleted={item.completed} key={item.id} itemId={item.id} taskName={item.name} />)
+  }
+
+  return <ChakraProvider theme={theme}>
+    <Box boxShadow='dark-lg' w='60%' p={4} mx="auto" mt="30" >
+      <Heading as='h2' size='lg' mx="auto" my="30" w='30%'>今日待办事项</Heading>
+      <AddInput onAddTask={handleAddTask}/>
+      <FilterButons onFilterTask={handleFilterTask} filter={filter}  />
+      {handleFilterList()}
     </Box>
   </ChakraProvider>
-)
+}

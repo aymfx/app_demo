@@ -5,10 +5,17 @@ import { App } from "./App"
 import reportWebVitals from "./reportWebVitals"
 import * as serviceWorker from "./serviceWorker"
 
+// mo
+const DATA = [
+  { id: "todo-1b1a8ca4-5324-4347-8b97-1dd474388691", name: "吃饭", completed: true },
+  { id: "todo-1b1a8ca4-5324-4347-8b97-1dd4748883", name: "睡觉", completed: false },
+  { id: "todo-1b1a8ca4-5324-4347-8b97-1dd4743886933", name: "打豆豆", completed: false }
+];
+
 ReactDOM.render(
   <React.StrictMode>
     <ColorModeScript />
-    <App />
+    <App tasks={DATA} />
   </React.StrictMode>,
   document.getElementById("root"),
 )
